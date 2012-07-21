@@ -1,0 +1,33 @@
+{
+    "name": "test",
+    "version": "1.0",
+    "manifest_version": "2",
+
+    "content_scripts": [
+        {
+            "matches": [
+                "http://images.google.com/search"
+            ],
+            "js": ["test.js"]
+        },
+        {
+            "matches": [
+                "http://0.wdhackday.duapp.com/main.html"
+            ],
+            "js": [
+                "client/javascripts/imageloader.js",
+                "client/javascripts/main.js"
+            ]
+        }
+    ],
+
+    "app": {
+        "urls": [
+            
+        ],
+        "launch": {
+            "web_url": "http://0.wdhackday.duapp.com/main.html"
+        }
+    }
+
+}
