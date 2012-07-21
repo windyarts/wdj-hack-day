@@ -6,15 +6,32 @@
     "content_scripts": [
         {
             "matches": [
-                "http://images.google.com/search"
+                "http://www.wandoujia.com/blank.html"
             ],
-            "js": ["test.js"]
+            "css": [
+                "css/style.css"
+            ],
+            "js": [
+                "client/javascripts/jquery.js",
+                "server/photosync.js"
+            ]
+        },
+        {
+            "matches": [
+                "http://0.wdhackday.duapp.com/flickr.php"
+            ],
+            "js": [
+                "client/javascripts/jquery.js",
+                "client/javascripts/imageloader.js",
+                "server/flickr.js"
+            ]
         },
         {
             "matches": [
                 "http://0.wdhackday.duapp.com/main.html"
             ],
             "js": [
+                "client/javascripts/jquery.js",
                 "client/javascripts/imageloader.js",
                 "client/javascripts/main.js"
             ]

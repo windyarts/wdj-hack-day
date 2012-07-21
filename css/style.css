@@ -49,7 +49,7 @@ table {
 
 /*By Cheng*/
 .off,.hidden{
-	display: none !important;
+	display: none;
 }
 .header{
 	height: 145px;
@@ -95,6 +95,7 @@ table {
 	color: #ccc;
 	font-size:16px;
 	margin-right:10px;
+	-webkit-transition: 0.3s;
 }
 .header li:before{
 	content: counter(step);
@@ -128,6 +129,7 @@ ul.tabs li{
 	padding:0 15px;
 	color: #666;
 	cursor: pointer;
+	-webkit-transition: 0.3s color;
 }
 ul.tabs li:hover{
 	background: #fafafa;
@@ -192,6 +194,7 @@ p.intro strong{
 	float: right;
 	margin: 0px 10px;
 	cursor: pointer;
+	-webkit-transition: 3s;
 }
 .nextstep:hover,.prevstep:hover,.urlgo:hover,.install:hover{
 	background: #87d4b9;
@@ -210,7 +213,11 @@ ul.thumbs{
 	display: inline-block;
 	margin-right: 5px;
 	margin-bottom: 5px;
+	width: 75px;
+	height: 75px;
 	position: relative;
+	overflow: hidden;
+	-webkit-transition: 0.3s;
 }
 .preview{
 	float:left;
@@ -219,7 +226,7 @@ ul.thumbs{
 	float:left;
 	margin: 0 0 20px 20px;
 }
-#previewContainer{
+.previewContainer{
 	width:280px;
 	height:420px;
 	background: #f0f0f0;
@@ -266,6 +273,7 @@ input[type=password]:focus,textarea:focus{
 	color: #fff;
 	opacity: 0.5;
 	cursor: pointer;
+	-webkit-transition: 0.3s;
 }
 .image-tool span:hover{
 	opacity: 1;
@@ -276,10 +284,12 @@ input[type=password]:focus,textarea:focus{
 
 .image-tool .delete{
 	background:#f46d91;
+	-webkit-transition: 0.3s;
 }
 
 .image-tool .add{
 	background:#7abfa7;
+	-webkit-transition: 0.3s;
 }
 .gallery li{
 	position: relative;
@@ -338,4 +348,29 @@ input[type=submit]{
 	text-align: center;
 	cursor: pointer;
 }
-
+.tools {
+	position: fixed;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+}
+#step1, #step2, #step3 {
+	position: fixed;
+	top: 145px;
+	bottom: 50px;
+	width: 100%;
+	-webkit-transition: 0.3s;
+}
+#step1 {
+	bottom: 130px;
+}
+/*
+#step1.off, #step2.off, #step3.off {
+	opacity: 0;
+	display: block;
+}
+#step1.on, #step2.on, #step3.on {
+	opacity: 1;
+	display: none;
+}
+*/

@@ -1,86 +1,144 @@
-(function() {
+$(function() {
+
+var frameMap = {
+    frameFlickr: 'http://0.wdhackday.duapp.com/flickr.php',
+    framePhotosync: 'http://www.wandoujia.com/blank.html'
+};
+
+var imageCart = $('#step1 > .tools');
+var photoEditor = $('#step2 .photoeditor');
+var tabs = $('#imageNav');
+var frames = $('#imageFrame');
+
+$('#imageFrame').on('click', '.frame .gallery .image-tool .add', function(e) {
+    var img = $(this).parent().next();
+    addToCart(img[0]);
+});
+
+imageCart.on('click', '.thumbs .image-tool .delete', function(e) {
+    removeFromCart($(this));
+});
+
+photoEditor.on('click', '.image-tool .up', function(e) {
+    var li = $(this).closest('li');
+    var prev = li.prev();
+    if (prev.size()) {
+        li.insertBefore(prev);
+    }
+});
+photoEditor.on('click', '.image-tool .down', function(e) {
+    var li = $(this).closest('li');
+    var next = li.next();
+    if (next.size()) {
+        li.insertAfter(next);
+    }
+});
+photoEditor.on('click', '.image-tool .delete', function(e) {
+    $(this).closest('li').remove();
+});
+
+
+var addToCart = function(source) {
+    var thumbs = imageCart.find('.thumbs');
+    var src = 'http://0.wdhackday.duapp.com?url=' + encodeURIComponent(source.src);
+    if (true || !thumbs.find('li img[src=' + src + ']').size()) {
+        thumbs.append('<li style="opacity: 0;"><div class="image-tool"><span class="delete">×</span></div><img height="75" src="' + src + '"></li>');
+        imageCart.find('.meta .count').text(thumbs.find('li').size());
+        setTimeout(function() {
+            thumbs.find('li').last().css('opacity', 1);
+        }, 0);
+    }
+};
+var removeFromCart = function(source) {
+    var li = source.closest('li');
+    var index = imageCart.find('.thumbs li').index(li[0]);
+    imageCart.find('.meta .count').text(imageCart.find('.thumbs').find('li').size() - 1);
+    li.css('opacity', 0).on('webkitTransitionEnd', function() {
+        li.remove();
+    });
+    photoEditor.find('li').eq(index).remove();
+};
+
+
+var f1t2 = function() {
+    if (!photoEditor.find('li').size()) {
+        var html = imageCart.find('.thumbs li img').map(function(index, el) {
+            return '<li><div class="wrap"><div class="image-tool"><span class="up">上</span><span class="down">下</span><span class="delete">×</span></div>' + 
+                    '<img src="' + this.src + '" height="150">' + 
+                    '</div><textarea cols="30" rows="4"></textarea></li>';
+        }).get();
+        photoEditor.html(html.join(''));
+    }
+    // temp
+    $('#step2 .previewContainer').html('<button type="button">test</button>').
+        find('button').
+        on('click', function(e) {
+            var html = [];
+            html.push('<div id="generate_page">');
+            photoEditor.find('li img').each(function(index, el) {
+                var data = Mem.ImageLoader.getImageDataURL(el);
+                html.push('<div>' + $(el).parent().next('textarea').val() + '</div><img src="' + data + '"/>');
+            });
+            html.push('</div>');
+            $('#step2 .previewContainer').html(html.join(''));
+        });
+};
+var f2t1 = function() {
+    var html = photoEditor.find('li img').map(function(index, el) {
+        return '<li><div class="image-tool"><span class="delete">×</span></div><img height="75" src="' + el.src + '"></li>';
+    }).get();
+    imageCart.find('.thumbs').html(html.join(''));
+    imageCart.find('.meta .count').text(html.length);
+};
+var f2t3 = function() {
+    $('#generate_page').appendTo('#step3 .previewContainer');
+};
+var f3t2 = function() {
+    $('#generate_page').appendTo('#step2 .previewContainer');
+};
+
+tabs.on('click', 'li', function(e) {
+    var tabId = $(this).attr('tabid');
+    tabs.children('li').removeClass('on');
+    frames.children('div').removeClass('on');
+    $(this).addClass('on');
+    $('#' + tabId).addClass('on');
+    if (frameMap[tabId] && !$('#' + tabId).find('iframe').size()) {
+        $('#' + tabId).html('<iframe src="' + frameMap[tabId] + '" width="100%" height="100%"></iframe>');
+    }
+});
+
+$('#step1 .tools .nextstep').on('click', function(e) { 
+    $('#step1').removeClass('on').addClass('off');
+    $('#step2').removeClass('off').addClass('on');
+    $('.container .header ol li').eq(0).removeClass('on');
+    $('.container .header ol li').eq(1).addClass('on');
+    f1t2();
+});
+$('#step2 .tools .prevstep').on('click', function(e) { 
+    $('#step2').removeClass('on').addClass('off');
+    $('#step1').removeClass('off').addClass('on');
+    $('.container .header ol li').eq(1).removeClass('on');
+    $('.container .header ol li').eq(0).addClass('on');
+    f2t1();
+});
+$('#step2 .tools .nextstep').on('click', function(e) { 
+    $('#step2').removeClass('on').addClass('off');
+    $('#step3').removeClass('off').addClass('on');
+    $('.container .header ol li').eq(1).removeClass('on');
+    $('.container .header ol li').eq(2).addClass('on');
+    f2t3();
+});
+$('#step3 .tools .prevstep').on('click', function(e) { 
+    $('#step2').removeClass('off').addClass('on');
+    $('#step3').removeClass('on').addClass('off');
+    $('.container .header ol li').eq(2).removeClass('on');
+    $('.container .header ol li').eq(1).addClass('on');
+    f3t2();
+});
 
 window.addEventListener('message', function(e) {
-    var message = e.data;
-    message = 'http://t3.gstatic.com/images?q=tbn:ANd9GcQykyHEjO8BklY3C4P3GIbV1Qa-Y91YT4Th703nW2Tr2Jw6egM4SdhArKQ';
-    var img = createImage(message);
-    var data = getBase64Image(img);
-    console.log(data);
-    getImageData(message);
+    console.log(e.data);
+    addToCart({src: e.data});
 }, false);
-
-var trigger = document.querySelector('#trigger');
-trigger.addEventListener('click', function(e) {
-    e.preventDefault();
-    // var iframe = getIframe();
-    // iframe.src = "http://images.google.com/search?num=10&hl=en&newwindow=1&site=&tbm=isch&source=hp&biw=779&bih=1000&q=abcdef&oq=abcdef&gs_l=img.3...1831.3214.0.4013.6.6.0.0.0.0.0.0..0.0...0.0...1ac.t5V0Pv3ikJk";
-
-    // var img = Mem.ImageLoader.createImage('http://0.wdhackday.duapp.com/?url=' + encodeURIComponent('http://t3.gstatic.com/images?q=tbn:ANd9GcQykyHEjO8BklY3C4P3GIbV1Qa-Y91YT4Th703nW2Tr2Jw6egM4SdhArKQ'));
-    // img.onload =function() {
-    //     var data = Mem.ImageLoader.getImageDataURL(img);
-    //     console.log(data);
-    // };
-
-    Mem.ImageLoader.readImage(
-        'http://0.wdhackday.duapp.com/?url=' + encodeURIComponent('http://t3.gstatic.com/images?q=tbn:ANd9GcQykyHEjO8BklY3C4P3GIbV1Qa-Y91YT4Th703nW2Tr2Jw6egM4SdhArKQ'),
-        function(xhr, data) {
-           console.log(data);
-        }
-    );
-}, false);
-
-var getIframe = (function() {
-    var iframe = null;
-    return function() {
-        if (iframe === null) {
-            iframe = document.createElement('iframe');
-            var viewportWidth = document.documentElement.offsetWidth;
-            var viewportHeight = document.documentElement.offsetHeight;
-            iframe.width = viewportWidth;
-            iframe.height = 1000;
-            document.body.appendChild(iframe);
-        }
-        return iframe;
-    };
-})();
-
-var createImage = function(src) {
-    var img = new Image();
-    img.src = src;
-    // trigger.parentNode.insertBefore(img, trigger);
-    return img;
-};
-
-var getImageData = function(src) {
-    var xhr = new XMLHttpRequest();
-    xhr.open('GET', src);
-    xhr.responseType = 'arraybuffer';
-    xhr.onload = function() {
-        console.log(xhr.response);
-    };
-    xhr.send();
-};
-
-function getBase64Image(img) {
-    // Create an empty canvas element
-    var canvas = document.createElement("canvas");
-    canvas.width = img.width;
-    canvas.height = img.height;
-
-    // Copy the image contents to the canvas
-    var ctx = canvas.getContext("2d");
-    ctx.drawImage(img, 0, 0);
-
-    // Get the data-URL formatted image
-    // Firefox supports PNG and JPEG. You could check img.src to
-    // guess the original format, but be aware the using "image/jpg"
-    // will re-encode the image.
-    var dataURL = canvas.toDataURL("image/jpeg");
-    console.log(canvas);
-
-    trigger.parentNode.insertBefore(canvas, trigger);
-
-    return dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
-}
-
-})();
+});

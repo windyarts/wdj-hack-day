@@ -45,8 +45,9 @@ ImageLoader.readImage = function(src, onload) {
     xhr.responseType = 'arraybuffer';
     xhr.onload = function() {
         xhr.onload = null;
+        var type = xhr.getAllResponseHeaders().match(/Content-Type: *(\S+)/)[1];
         if (onload) {
-            onload(xhr, xhr.response);
+            onload(xhr, xhr.response, type);
         }
     };
     xhr.send(null);
