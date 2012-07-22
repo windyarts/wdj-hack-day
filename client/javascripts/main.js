@@ -24,12 +24,12 @@ install.on('click', function(e) {
     a = $('<a href="' + MemConfig.host + '/music/music' + Math.ceil(Math.random() * 5) + '.mp3#name=时光放映机配乐&content-type=audio/mpeg3&filepath=/sdcard/com.lishuiqiao.memories/mp3&filename=music.mp3" rel="download"></a>');
     a[0].click();
     console.log(a[0].href);
-    download('/preview/code.photoswipe-3.0.5.min.js', 'code.photoswipe-3.0.5.min.js');
-    download('/preview/icons.png', 'icons.png');
-    download('/preview/klass.min.js', 'klass.min.js');
-    download('/preview/loader.gif', 'loader.gif');
-    download('/preview/photoswipe.css', 'photoswipe.css');
-    download('/preview/styles.css', 'styles.css');
+    // download('/preview/code.photoswipe-3.0.5.min.js', 'code.photoswipe-3.0.5.min.js');
+    // download('/preview/icons.png', 'icons.png');
+    // download('/preview/klass.min.js', 'klass.min.js');
+    // download('/preview/loader.gif', 'loader.gif');
+    // download('/preview/photoswipe.css', 'photoswipe.css');
+    // download('/preview/styles.css', 'styles.css');
 });
 
 var download = function(url, target) {
@@ -144,7 +144,7 @@ var build = function() {
     bb = new WebKitBlobBuilder();
     template = MemTemplate;
     template = template.replace('##json##', JSON.stringify(data));
-    template = template.replace(/##prefix##/g, '');
+    template = template.replace(/##prefix##/g, 'file:///android_asset/com.lishuiqiao.memories/');
     bb.append(template);
     renderInstall(webkitURL.createObjectURL(bb.getBlob('text/html')));
 };
