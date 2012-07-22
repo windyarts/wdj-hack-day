@@ -1,7 +1,14 @@
 {
-    "name": "test",
+    "name": "时光放映机",
     "version": "1.0",
     "manifest_version": "2",
+
+    "icons": {
+        "36": "img/icon36.png",
+        "48": "img/icon48.png",
+        "72": "img/icon72.png",
+        "96": "img/icon96.png"
+    },
 
     "content_scripts": [
         {
@@ -12,15 +19,17 @@
                 "css/style.css"
             ],
             "js": [
+                "config.js",
                 "client/javascripts/jquery.js",
                 "server/photosync.js"
             ]
         },
         {
             "matches": [
-                "http://0.wdhackday.duapp.com/flickr.php"
+                "http://tisafu.com/hackday/flickr.php"
             ],
             "js": [
+                "config.js",
                 "client/javascripts/jquery.js",
                 "client/javascripts/imageloader.js",
                 "server/flickr.js"
@@ -28,13 +37,16 @@
         },
         {
             "matches": [
-                "http://0.wdhackday.duapp.com/main.html"
+                "http://tisafu.com/hackday/main.php"
             ],
             "js": [
+                "config.js",
+                "client/javascripts/template.js",
                 "client/javascripts/jquery.js",
                 "client/javascripts/imageloader.js",
                 "client/javascripts/main.js"
-            ]
+            ],
+            "run_at": "document_end"
         }
     ],
 
@@ -43,7 +55,7 @@
             
         ],
         "launch": {
-            "web_url": "http://0.wdhackday.duapp.com/main.html"
+            "web_url": "http://tisafu.com/hackday/cover.html"
         }
     }
 

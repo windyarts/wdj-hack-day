@@ -145,6 +145,10 @@ ul.tabs li.on{
 #imageFrame, #edit, #finish{
 	padding: 20px 20px;
 }
+#imageFrame {
+	padding: 5px;
+	padding-right: 5px;
+}
 .tabframe .frame{
 	display: none;
 }
@@ -156,6 +160,10 @@ p.intro{
 	font-size:14px;
 	line-height: 18px;
 	margin-bottom:10px;
+}
+#frameGallery p.intro {
+	padding-left: 20px;
+	margin: 15px 0;
 }
 p.intro strong{
 	font-weight:bold;
@@ -208,11 +216,11 @@ p.intro strong{
 ul.thumbs{
 	height: 80px;
 	overflow:auto;
+	-webkit-transition: 0.3s;
 }
 .thumbs li{
 	display: inline-block;
 	margin-right: 5px;
-	margin-bottom: 5px;
 	width: 75px;
 	height: 75px;
 	position: relative;
@@ -241,6 +249,7 @@ ul.thumbs{
 	overflow: hidden;
 	margin: 0 10px 10px 0;
 	position:relative;
+	text-align: center;
 }
 .photoeditor textarea, #url{
 	font-size:14px;
@@ -296,6 +305,8 @@ input[type=password]:focus,textarea:focus{
 	width: 150px;
 	height: 150px;
 	display: inline-block;
+	overflow: hidden;
+	text-align: center;
 }
 
 #urlGallery{
@@ -360,9 +371,26 @@ input[type=submit]{
 	bottom: 50px;
 	width: 100%;
 	-webkit-transition: 0.3s;
+	overflow: auto;
 }
 #step1 {
+	top: 185px;
+}
+#step1.open {
 	bottom: 130px;
+}
+#step1:not(.open) .tools .thumbs {
+	height: 0;
+}
+#step1 .tabs {
+	position: fixed;
+	top: 145px;
+	left: 0;
+	width: 100%;
+}
+#step2 .preview {
+	position: fixed;
+	top: 165px;
 }
 /*
 #step1.off, #step2.off, #step3.off {
@@ -374,3 +402,13 @@ input[type=submit]{
 	display: none;
 }
 */
+
+#refresh {
+	position: absolute;
+	right: 0;
+	color: #666;
+}
+#refresh:hover {
+	cursor: pointer;
+	color: #7abfa7;
+}
