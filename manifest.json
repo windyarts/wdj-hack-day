@@ -3,6 +3,8 @@
     "version": "1.0",
     "manifest_version": "2",
 
+    "description": "时光放映机可以用把照片配上自己的心情，自动加上恰到好处的音乐，一起制作成专属于您的 Android 手机应用。是一份特别的手机礼物，也是不会尘封的甜蜜回忆。",
+
     "icons": {
         "36": "img/icon36.png",
         "48": "img/icon48.png",

@@ -12,8 +12,13 @@ var tabs = $('#imageNav');
 var frames = $('#imageFrame');
 var install = $('.install');
 
+var _ban = null;
 $('#refresh').on('click', function(e) {
+    if (_ban) return;
     build();
+    _ban = setTimeout(function() {
+        _ban = null;
+    }, 5000);
 });
 install.on('click', function(e) {
     console.log(11111);
